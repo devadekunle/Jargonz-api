@@ -1,0 +1,6 @@
+@jargonz_api_HostAddress = http://localhost:5180
+
+GET {{jargonz_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
