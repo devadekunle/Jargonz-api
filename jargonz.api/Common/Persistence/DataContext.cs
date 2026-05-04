@@ -13,6 +13,8 @@ public class DataContext(DbContextOptions<DataContext> options)
     public DbSet<MagicLinkToken> MagicLinkTokens { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Book> Books { get; set; }
+    public DbSet<WordEntry> WordEntries { get; set; }
+    public DbSet<WordOfTheDayCache> WordOfTheDayCaches { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

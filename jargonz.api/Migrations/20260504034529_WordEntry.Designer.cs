@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using jargonz.api.Common.Persistence;
@@ -11,9 +12,11 @@ using jargonz.api.Common.Persistence;
 namespace jargonz.api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260504034529_WordEntry")]
+    partial class WordEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -376,11 +379,6 @@ namespace jargonz.api.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("character varying(300)");
 
-                    b.Property<string>("WordHash")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
@@ -391,39 +389,7 @@ namespace jargonz.api.Migrations
 
                     b.HasIndex("Word");
 
-                    b.HasIndex("WordHash")
-                        .IsUnique();
-
                     b.ToTable("Words", (string)null);
-                });
-
-            modelBuilder.Entity("jargonz.api.Domain.WordOfTheDayCache", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("character varying(26)");
-
-                    b.Property<DateTime>("CachedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("character varying(26)");
-
-                    b.Property<string>("WordEntryId")
-                        .IsRequired()
-                        .HasColumnType("character varying(26)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WordEntryId");
-
-                    b.HasIndex("UserId", "Date")
-                        .IsUnique();
-
-                    b.ToTable("WordOfTheDayCache", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Ulid>", b =>
@@ -505,25 +471,6 @@ namespace jargonz.api.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("jargonz.api.Domain.WordOfTheDayCache", b =>
-                {
-                    b.HasOne("jargonz.api.Domain.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("jargonz.api.Domain.WordEntry", "WordEntry")
-                        .WithMany()
-                        .HasForeignKey("WordEntryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("WordEntry");
                 });
 #pragma warning restore 612, 618
         }

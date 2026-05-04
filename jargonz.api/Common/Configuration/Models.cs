@@ -22,6 +22,19 @@ public record JwtSettings(string Issuer, string Audience, string Key, TimeSpan E
     }
 }
 
+public record DeepSeekSettings(string ApiKey, string Model, string BaseUrl)
+{
+    public void Validate()
+    {
+        if (string.IsNullOrEmpty(ApiKey))
+            throw new ArgumentException("DeepSeek ApiKey cannot be empty");
+        if (string.IsNullOrEmpty(Model))
+            throw new ArgumentException("DeepSeek Model cannot be empty");
+        if (string.IsNullOrEmpty(BaseUrl))
+            throw new ArgumentException("DeepSeek BaseUrl cannot be empty");
+    }
+}
+
 public record EmailSettings(
     string ApiKey,
     string FromEmail,

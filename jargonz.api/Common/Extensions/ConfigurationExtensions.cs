@@ -1,5 +1,6 @@
 using jargonz.api.Common.Configuration;
 using jargonz.api.Common.EmailNotifications;
+using jargonz.api.Common.Llm;
 
 namespace jargonz.api.Common.Extensions;
 
@@ -14,6 +15,8 @@ public static class ConfigurationExtensions
         var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
         jwtSettings?.Validate();
         serviceCollection.AddSingleton(jwtSettings!);
+
+        serviceCollection.AddDeepSeekServices(configuration);
 
         serviceCollection.AddEmailNotifications(configuration);
     }
