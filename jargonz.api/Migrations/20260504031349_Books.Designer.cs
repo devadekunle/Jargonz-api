@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using jargonz.api.Common.Persistence;
@@ -11,9 +12,11 @@ using jargonz.api.Common.Persistence;
 namespace jargonz.api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260504031349_Books")]
+    partial class Books
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,15 +251,9 @@ namespace jargonz.api.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("character varying(26)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Title");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Books", (string)null);
                 });
@@ -347,17 +344,6 @@ namespace jargonz.api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("jargonz.api.Domain.Book", b =>
-                {
-                    b.HasOne("jargonz.api.Domain.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
